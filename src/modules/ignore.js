@@ -21,6 +21,10 @@ export function isIgnored(content, settings) {
     return true
   }
 
+  if (content.path && (content.path.endsWith('.json') || content.path.endsWith('.js'))) {
+    return true
+  }
+  
   const pathIgnored = settings.paths.find((path) => content.path.includes(path))
 
   if (pathIgnored) {
