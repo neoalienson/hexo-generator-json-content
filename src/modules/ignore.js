@@ -1,4 +1,4 @@
-export function ignoreSettings(cfg) {
+export function ignoreSettings(cfg, defaults) {
   const ignore = cfg.ignore ? cfg.ignore : {}
 
   ignore.paths = ignore.paths
@@ -8,6 +8,13 @@ export function ignoreSettings(cfg) {
   ignore.tags = ignore.tags
     ? ignore.tags.map((tag) => tag.replace('#', '').toLowerCase())
     : []
+
+  ignore.extensions =
+    ignore.extensions !== undefined
+      ? ignore.extensions
+      : defaults.ignore
+      ? defaults.ignore.extensions
+      : ['.json', '.js', '.css']
 
   return ignore
 }
@@ -21,10 +28,15 @@ export function isIgnored(content, settings) {
     return true
   }
 
-  if (content.path && (content.path.endsWith('.json') || content.path.endsWith('.js') || content.path.endsWith('.css'))) {
-    return true
+  if (content.path && settings.extensions) {
+    const hasIgnoredExt = settings.extensions.some((ext) =>
+      content.path.endsWith(ext),
+    )
+    if (hasIgnoredExt) {
+      return true
+    }
   }
-  
+
   const pathIgnored = settings.paths.find((path) => content.path.includes(path))
 
   if (pathIgnored) {

@@ -1,4 +1,6 @@
 export default {
+  enable: true,
+
   pages: {
     raw: false,
     content: false,
@@ -33,5 +35,9 @@ export default {
     tags: true,
     keywords: true,
     author: true,
+  },
+
+  ignore: {
+    extensions: ['.json', '.js', '.css'],
   },
 }

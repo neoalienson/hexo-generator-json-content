@@ -3,12 +3,12 @@ import { isIgnored, ignoreSettings } from './modules/ignore'
 import { getProps, has, reduceContent, reduceCategs } from './modules/utils'
 
 const { config } = hexo
-const defs = { meta: true }
+const defs = { meta: true, enable: true }
 const opts = config.jsonContent || {}
 const json = { ...defs, ...opts }
 const pages = has(json, 'pages') ? json.pages : defaults.pages
 const posts = has(json, 'posts') ? json.posts : defaults.posts
-const ignore = ignoreSettings(json)
+const ignore = ignoreSettings(json, defaults)
 const categs = {
   categories: [],
   tags: [],
@@ -28,6 +28,8 @@ let output = json.meta
   : {}
 
 hexo.extend.generator.register('json-content', (site) => {
+  if (json.enable === false) return
+
   if (pages) {
     const pagesProps = getProps(pages)
     const pagesValid = site.pages.filter((page) => !isIgnored(page, ignore))

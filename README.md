@@ -124,6 +124,7 @@ Default settings are:
 
 ```yaml
 jsonContent:
+  enable: true
   meta: true
   drafts: false
   file: content.json
@@ -241,6 +242,13 @@ The result JSON will look like this:
 
 ### <a name='Excludingfields'></a>Excluding fields
 
+You can disable the generator entirely by setting `enable: false`:
+
+```yaml
+jsonContent:
+  enable: false
+```
+
 You can exclude `meta`, `pages` or `posts` contents from output JSON by setting `meta`, `pages`, or `posts` to `false`.
 
 To exclude individual fields from `pages` or `posts` output, set its config values to `false`.
@@ -278,7 +286,13 @@ jsonContent:
     tags:
       - tag1
       - tag2
+    extensions:
+      - .json
+      - .js
+      - .css
 ```
+
+By default, files with `.json`, `.js`, and `.css` extensions are ignored. You can customize this list using the `extensions` option.
 
 Also, you can set `hidden: false` to override all the rules mentioned above.
 
